@@ -14,6 +14,39 @@ $extensions = explode('-',$ext_string); # why there are more than 1?
 
 openlog("Ambrogio", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 
+// Check CF
+foreach ($extensions as $extension) {
+   $cf = $agi->database_get('CF',$extension);
+   $cf = $cf['data'];
+   if (!empty($cf)) {
+       $extensions[] = $cf;
+   }
+}
+$extensions = array_unique($extensions,SORT_REGULAR);
+
+// Check DND
+foreach ($extensions as $index => $extension) {
+   $dnd = $agi->database_get('DND',$extension);
+   $dnd = $dnd['data'];
+   if (!empty($dnd)) {
+       unset($extensions[$index]);
+   }
+}
+
+// TEST: Get all extensions from mainextensions
+$devices = array();
+foreach ($extensions as $extension) {
+   $device_str = sprintf("%s/device", $extension);
+   $device = $agi->database_get('AMPUSER',$device_str);
+   $device = $device['data'];
+   $devices = array_merge($devices,explode('&',$device));
+}
+$devices = array_unique($devices,SORT_REGULAR);
+
+foreach ($devices as $device) {
+   syslog(LOG_ERR, "device: $device");
+}
+
 try {
    $serverCredentials = json_decode(file_get_contents('/etc/asterisk/nethcti_push_configuration.json'),TRUE);
    if (is_null($serverCredentials)) {

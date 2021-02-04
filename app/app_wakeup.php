@@ -10,7 +10,7 @@ $call_id = $agi->request['agi_uniqueid'];
 $caller_id = $agi->request['agi_callerid'];
 $caller_id_name = $agi->request['agi_calleridname'];
 $ext_string = get_var($agi, 'ARG3');
-$extensions = explode('-',$ext_string); # why there are more than 1?
+$extensions = explode('-',$ext_string); # holds only main extensions
 
 openlog("Ambrogio", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 
@@ -33,20 +33,6 @@ foreach ($extensions as $index => $extension) {
    }
 }
 
-// TEST: Get all extensions from mainextensions
-$devices = array();
-foreach ($extensions as $extension) {
-   $device_str = sprintf("%s/device", $extension);
-   $device = $agi->database_get('AMPUSER',$device_str);
-   $device = $device['data'];
-   $devices = array_merge($devices,explode('&',$device));
-}
-$devices = array_unique($devices,SORT_REGULAR);
-
-foreach ($devices as $device) {
-   syslog(LOG_ERR, "device: $device");
-}
-
 try {
    $serverCredentials = json_decode(file_get_contents('/etc/asterisk/nethcti_push_configuration.json'),TRUE);
    if (is_null($serverCredentials)) {
@@ -58,11 +44,39 @@ try {
    exit(1);
 }
 
-$public_hostname = $serverCredentials['Host'];
+$public_hostname = $serverCredentials['Host']; // TODO: validate this mandatory field
+
+$endpoint = 'https://beta.youneed.it/phonenotifications/incoming_call_notification';
+
+// TODO: if this version works we should improve the API like so:
+// - The request should be a POST and not a GET one
+// - The request should accept an array of callee (extensions), the hostname and the caller (Do we need the caller alias?)
+// - The response should return a 200 with a payload with a "status" list, 4XX errors will mean total failure
 
 foreach ($extensions as $extension) {
-   syslog(LOG_ERR, "extension: $extension");
+   $callee = $extension . "@" . $public_hostname;
+   syslog(LOG_ERR, "callee: $callee");
+
+   $params = array('calleeAor' => $callee, 'callerAor' => $caller_id);
+   $url = $endpoint . '?' . http_build_query($params);
+   syslog(LOG_ERR, "url: $url");
+  
+   $ch = curl_init();
+   curl_setopt($ch, CURLOPT_URL, $url);
+   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+   curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+   $response = curl_exec($ch);
+   $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+   curl_close($ch);
+
+   if ($httpCode != 200) {
+      syslog(LOG_ERR, "Error: notification server answered $httpCode");
+   } else {
+      syslog(LOG_ERR, "Sent VoIP notification");
+   }
 }
+
+// TODO: dev logs
 syslog(LOG_ERR, "callerid: $caller_id");
 syslog(LOG_ERR, "callerid name: $caller_id_name");
 syslog(LOG_ERR, "hostname: $public_hostname");
@@ -79,8 +93,3 @@ function get_var( $agi, $value) {
    }
    return '';
 }
-
-# 126	Command invoked cannot execute: Permission problem or command is not an executable
-# 127	Command not found	illegal_command: Possible problem with $PATH or a typo
-
-# sudo -u root php -r 'exec("/sbin/e-smith/config getprop nethvoice PublicHost", $out, $result); var_dump($out);'

@@ -38,8 +38,8 @@ foreach ($extensions as $index => $extension) {
 try {
    $serverCredentials = json_decode(file_get_contents('/etc/asterisk/nethcti_push_configuration.json'),TRUE);
    if (is_null($serverCredentials)) {
-      syslog(LOG_ERR, "Error reading public hostname");
-      Throw new Exception('Error reading public hostname');
+      syslog(LOG_ERR, "Error reading public hostname.");
+      Throw new Exception('Error reading public hostname.');
    }
 } catch (Exception $e) {
    $agi->verbose($e->getMessage());
@@ -57,11 +57,11 @@ $endpoint = 'https://beta.youneed.it/phonenotifications/incoming_call_notificati
 
 foreach ($extensions as $extension) {
    $callee = $extension . "@" . $public_hostname;
-   syslog(LOG_ERR, "Sending VoIP notification - from $caller_id (name: $caller_id_name) to $callee.");
+   syslog(LOG_INFO, "Sending VoIP notification - from $caller_id (name: $caller_id_name) to $callee.");
 
    $params = array('calleeAor' => $callee, 'callerAor' => $caller_id);
    $url = $endpoint . '?' . http_build_query($params);
-   syslog(LOG_ERR, "url: $url");
+   syslog(LOG_DEBUG, "url: $url");
 
    $ch = curl_init();
    curl_setopt($ch, CURLOPT_URL, $url);
@@ -74,7 +74,7 @@ foreach ($extensions as $extension) {
    if ($httpCode != 200) {
       syslog(LOG_ERR, "Error while sending VoUP notification to $callee, server answered $httpCode");
    } else {
-      syslog(LOG_ERR, "VoIP notification sent to $callee.");
+      syslog(LOG_INFO, "VoIP notification sent to $callee.");
    }
 }
 

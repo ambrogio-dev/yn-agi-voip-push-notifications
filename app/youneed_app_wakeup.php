@@ -7,6 +7,8 @@ include_once '/etc/freepbx_db.conf';
 define("AGIBIN_DIR", "/var/lib/asterisk/agi-bin");
 include(AGIBIN_DIR."/phpagi.php");
 
+$endpoint = 'https://beta.youneed.it/phonenotifications/incoming_call_notification';
+
 $agi = new AGI();
 $call_id = $agi->request['agi_uniqueid'];
 $caller_id = $agi->request['agi_callerid'];
@@ -48,13 +50,7 @@ try {
 
 $public_hostname = $serverCredentials['Host']; // TODO: validate this mandatory field
 
-$endpoint = 'https://beta.youneed.it/phonenotifications/incoming_call_notification';
-
-// TODO: if this version works we should improve the API like so:
-// - The request should be a POST and not a GET one
-// - The request should accept an array of callee (extensions), the hostname and the caller (Do we need the caller alias?)
-// - The response should return a 200 with a payload with a "status" list, 4XX errors will mean total failure
-
+// Usually "$extensions" contains a single element, so sending a HTTP request for every extension should be fine.
 foreach ($extensions as $extension) {
    $callee = $extension . "@" . $public_hostname;
    syslog(LOG_INFO, "Sending VoIP notification - from $caller_id (name: $caller_id_name) to $callee.");

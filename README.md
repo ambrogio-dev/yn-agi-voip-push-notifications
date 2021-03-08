@@ -1,4 +1,14 @@
-Dockerized env to test the php script called by the SIP proxy to send push notifications
+# Description
+
+The relevant bits are defined inside the `youneed_app_wakeup.php` file.
+This script will be called by Asterisk whenever an incoming call arrives.
+It requires a configuration JSON located on a PBX at **/etc/asterisk/nethcti_push_configuration.json**.
+
+---
+
+# PHP env
+
+The dockerized env can be used to test php code without having to rely on a Nethesis PBX.
 
 ### Final container
 
@@ -51,14 +61,15 @@ FlexSIP:
 ```
 
 
-# Script
+# Push Notification Script
 
 There are two possible ways to notify our backend (CURL) to create a push notification:
 
 1. **Using a FlexSIP module**
   FlexSIP loads PushNotification module that internally creates an HTTP request for a given URI: `/opt/belledonne-communications/share/push-proxy/index.php`
+  We can't use this option because the FlexSIP module requires a `pn-tok` parameter to be passed during a SIP registration and our current SDK (PortSIP) doesn't support it out of the box (it's a 3000$ feature  request).
 
-2. **Using an AGI**
+2. **Using an AGI** (✅)
   AGI is analogous to CGI in Apache. AGI provides an interface between the Asterisk dialplan and an external program that wants to manipulate a channel in the dialplan. In general, the interface is synchronous - actions taken on a channel from an AGI block and do not return until the action is completed.
-  For our purposes the AGI is located here: `/var/lib/asterisk/agi-bin/app_wakeup.php`
+  For our purposes the AGI is located here: `/var/lib/asterisk/agi-bin/youneed_app_wakeup.php`
 

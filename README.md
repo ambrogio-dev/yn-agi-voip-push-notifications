@@ -4,6 +4,17 @@ The relevant bits are defined inside the `youneed_app_wakeup.php` file.
 This script will be called by Asterisk whenever an incoming call arrives.
 It requires a configuration JSON located on a PBX at **/etc/asterisk/nethcti_push_configuration.json**.
 
+JSON file format:
+
+```json
+{
+    "NotificationServerURL": "https://pp.nethesis.it/NotificaPush",
+    "Host": "1772-neth-01.youneed.tech",
+    "SystemId": "1D8B2BBA-02E4-40AE-8FD6-5255CFAFF0F8",
+    "Secret": "1f259905a2f54f56b572e4998881f2abf77e0af8931fff072afc4f8c549d4098"
+}
+```
+
 ---
 
 # PHP env

@@ -97,6 +97,7 @@ foreach ($extensions as $extension) {
             }
             syslog(LOG_INFO,"\n");
          }
+      }
    }
 }
 

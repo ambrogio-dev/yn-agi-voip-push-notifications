@@ -34,6 +34,7 @@ Build an image and run a container that **copies** the project *app* folder cont
 Build and run a container where the project *app* folder is mounted to the container *app* folder.
 You can simply edit the project source code and issue a new HTTP request to see the changes (no build and run phases after every change).
 
+`docker build -t script .`
 `docker run --rm -v $(pwd)/app:/app -it -p 80:80 script`
 
 ---

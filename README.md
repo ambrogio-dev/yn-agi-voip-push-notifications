@@ -85,3 +85,4 @@ There are two possible ways to notify our backend (CURL) to create a push notifi
   AGI is analogous to CGI in Apache. AGI provides an interface between the Asterisk dialplan and an external program that wants to manipulate a channel in the dialplan. In general, the interface is synchronous - actions taken on a channel from an AGI block and do not return until the action is completed.
   For our purposes the AGI is located here: `/var/lib/asterisk/agi-bin/youneed_app_wakeup.php`
 
+  > every script should have permissions set to 775

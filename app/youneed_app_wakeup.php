@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-// requires chmod 755
+// requires chmod 775
 
 include_once '/etc/freepbx_db.conf';
 define("AGIBIN_DIR", "/var/lib/asterisk/agi-bin");

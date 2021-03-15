@@ -3,7 +3,7 @@
 
 # This script is merely used to simulate a cURL command
 
-$endpoint = 'https://beta.youneed.it/phonenotifications/incoming_call_notification?calleeAor=45@214-neth-01.youneed.tech&callerAor=56';
+$endpoint = 'https://beta.youneed.it/phonenotifications/incoming_call_notification?calleeAor=201@1772-neth-01.youneed.tech&callerAor=3471921073';
 
 openlog("Ambrogio", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 

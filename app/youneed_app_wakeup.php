@@ -2,6 +2,7 @@
 <?php
 
 // requires chmod 775
+// v.1.0.0 RC01
 
 include_once '/etc/freepbx_db.conf';
 define("AGIBIN_DIR", "/var/lib/asterisk/agi-bin");

@@ -1,8 +1,14 @@
 #!/usr/bin/env php
+
 <?php
 
-// requires chmod 775
-// v.1.0.0 RC01
+/**
+ * v.1.0.0 RC01
+ * 
+ * AGI script to send VoIP push notification through a YouNeed backend service.
+ * It requires chmod 775 to run.
+ */
+// 
 
 include_once '/etc/freepbx_db.conf';
 define("AGIBIN_DIR", "/var/lib/asterisk/agi-bin");

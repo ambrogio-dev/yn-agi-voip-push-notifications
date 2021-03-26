@@ -3,12 +3,11 @@
 <?php
 
 /**
- * v.1.0.0 RC01
+ * v.1.0.0 RC02
  * 
  * AGI script to send VoIP push notification through a YouNeed backend service.
  * It requires chmod 775 to run.
  */
-// 
 
 include_once '/etc/freepbx_db.conf';
 define("AGIBIN_DIR", "/var/lib/asterisk/agi-bin");
@@ -22,7 +21,7 @@ $call_id = $agi->request['agi_uniqueid'];
 $caller_id = $agi->request['agi_callerid'];
 $caller_id_name = $agi->request['agi_calleridname'];
 $ext_string = get_var($agi, 'ARG3');
-$extensions = explode('-',$ext_string); # holds only main extensions
+$extensions = explode('-',$ext_string); // holds only main extensions
 
 openlog("Ambrogio", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 
@@ -100,7 +99,12 @@ foreach ($extensions as $extension) {
          syslog(LOG_INFO, "VoIP notification report for $callee:");
          foreach ($reports as $key => $report) {
             foreach($report as $key => $value) {
-               syslog(LOG_INFO, " $key: $value");
+               if ($key === "sent") { // extracts the sent status
+                  $is_sent = $value ? 'true' : 'false';
+                  syslog(LOG_INFO, " $key: $is_sent");
+               } else { // fallback for the other key-value pairs
+                  syslog(LOG_INFO, " $key: $value");
+               }
             }
             syslog(LOG_INFO,"\n");
          }

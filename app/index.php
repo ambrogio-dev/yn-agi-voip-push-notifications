@@ -23,17 +23,17 @@ if ($httpCode != 200) {
 } else {
   syslog(LOG_ERR, "Voip Notification Report:");
   $reports = json_decode($response);
-  if (empty($reports)) {
-    syslog(LOG_ERR, "The callee didn't have any push-notification enabled clients.");
-  } else {
-    foreach ($reports as $key => $report) {
-      foreach($report as $key => $value) {
-        syslog(LOG_ERR, " $key: $value");
-     }
-     syslog(LOG_ERR,"\n");
-  }
-}
-  
+  foreach ($reports as $key => $report) {
+    foreach($report as $key => $value) {
+       if ($key === "sent") { // extracts the sent status
+          $is_sent = $value ? 'true' : 'false';
+          syslog(LOG_INFO, " $key: $is_sent");
+       } else { // fallback for the other key-value pairs
+          syslog(LOG_INFO, " $key: $value");
+       }
+    }
+    syslog(LOG_INFO,"\n");
+ }
 }
 
 closelog();

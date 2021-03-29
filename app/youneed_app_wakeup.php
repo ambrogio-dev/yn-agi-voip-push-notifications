@@ -3,7 +3,7 @@
 <?php
 
 /**
- * v.1.0.0 RC02
+ * v.1.0.0 RC03
  * 
  * AGI script to send VoIP push notification through a YouNeed backend service.
  * It requires chmod 775 to run IF installed manually for test purposes.
@@ -71,6 +71,10 @@ if (is_null($server_user) || is_null($server_secret) || empty($server_user) || e
 
 // Usually "$extensions" contains a single element so, sending a HTTP request for every extension should be fine.
 foreach ($extensions as $extension) {
+   if (empty($extension)) {
+      // for some reasons we get some empty extensions
+      continue;
+   }
    $callee = $extension . "@" . $public_hostname;
    syslog(LOG_INFO, "Sending VoIP notification - from $caller_id (name: $caller_id_name) to $callee.");
 

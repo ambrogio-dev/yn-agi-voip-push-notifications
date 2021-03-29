@@ -28,6 +28,11 @@ openlog("Ambrogio", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 // TODO: disable this log if in production
 syslog(LOG_INFO, "AGI ARG3: $ext_string");
 
+// Sometimes ARG3 is empty.
+if (empty($ext_string)) {
+   exit(0);
+}
+
 // Check CF
 foreach ($extensions as $extension) {
    $cf = $agi->database_get('CF',$extension);

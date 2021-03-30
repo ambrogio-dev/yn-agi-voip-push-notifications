@@ -14,6 +14,10 @@ JSON file format:
     "Secret": "1f259905a2f54f56b572e4998881f2abf77e0af8931fff072afc4f8c549d4098"
 }
 ```
+---
+# PBX Module
+
+Instructions to install the module can be found [here](./pushnotification)
 
 ---
 

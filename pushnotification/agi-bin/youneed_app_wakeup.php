@@ -96,7 +96,7 @@ foreach ($extensions as $extension) {
    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2); // Max connection time 2 sec
-   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // We need the actual respone for logging
+   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // We need the actual response for logging
    curl_setopt($ch, CURLOPT_USERPWD, $server_user . ':' . $server_secret);
    $response = curl_exec($ch);
    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);

@@ -3,7 +3,7 @@
 <?php
 
 /**
- * v.1.0.0 RC05
+ * v.1.0.0 RC06
  * 
  * AGI script to send VoIP push notification through a YouNeed backend service.
  * It requires chmod 775 to run IF installed manually for test purposes.
@@ -13,7 +13,7 @@ include_once '/etc/freepbx_db.conf';
 define("AGIBIN_DIR", "/var/lib/asterisk/agi-bin");
 include(AGIBIN_DIR."/phpagi.php");
 
-$endpoint = 'https://beta.youneed.it/phonenotifications/incoming_call_notification';
+$endpoint = 'https://youneed.it/phonenotifications/incoming_call_notification';
 $configuration_path = '/etc/asterisk/nethcti_push_configuration.json';
 
 $agi = new AGI();

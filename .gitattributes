@@ -1,5 +1,6 @@
 # exclude .gitignore and similar from the generated tarball
-.git*           export-ignore
-# exlude not needed files
-README.md       export-ignore
-test            export-ignore
+.git*                       export-ignore
+# exlude not needed files for a PBX module
+README.md                   export-ignore
+test                        export-ignore
+pushnotification/README.md  export-ignore

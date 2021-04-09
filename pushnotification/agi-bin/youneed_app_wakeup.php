@@ -3,7 +3,7 @@
 <?php
 
 /**
- * v.1.0.0 RC07
+ * v.1.0.0 RC09
  * 
  * AGI script to send VoIP push notification through a YouNeed backend service.
  * It requires chmod 775 to run IF installed manually for test purposes.
@@ -25,8 +25,7 @@ $extensions = explode('-',$ext_string); // holds only main extensions
 
 openlog("Ambrogio", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 
-// TODO: disable this log if in production
-syslog(LOG_INFO, "AGI ARG3: $ext_string");
+syslog(LOG_INFO, "Starting script with AGI ARG3: $ext_string");
 
 // Sometimes ARG3 is empty.
 if (empty($ext_string) || empty($extensions)) {

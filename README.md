@@ -17,7 +17,10 @@ JSON file format:
 ---
 # PBX Module
 
-Instructions to install the module can be found [here](./pushnotification)
+1. Copy *youneed_app_wakeup.php* into *agi-bin* folder. (In this project it's already there)
+1. Compress the whole module as tar.gz (Done automatically when a new github release is created)
+1. Upload the archive in */usr/src/nethvoice/modules/* (on a Nethesis PBX)
+1. Run `/etc/e-smith/events/actions/nethserver-nethvoice-conf`
 
 ---
 

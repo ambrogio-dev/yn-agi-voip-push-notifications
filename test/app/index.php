@@ -2,16 +2,18 @@
 
 # This script is merely used to simulate a cURL command
 
+//$endpoint = 'https://beta.youneed.it/phonenotifications/incoming_call_notification?calleeAor=02@214-neth-01.youneed.tech&callerAor=123';
 $endpoint = 'https://youneed.it/phonenotifications/incoming_call_notification?calleeAor=45@214-neth-01.youneed.tech&callerAor=56';
-//$endpoint = 'https://beta.youneed.it/phonenotifications/incoming_call_notification?calleeAor=201@1772-neth-01.youneed.tech&callerAor=3471921073';
-//$endpoint = 'https://beta.youneed.it/phonenotifications/incoming_call_notification?calleeAor=45@214-neth-01.youneed.tech&callerAor=56';
 
 openlog("Ambrogio", LOG_PID | LOG_PERROR, LOG_LOCAL0);
+
+$username = 'USERNAME';
+$secret = 'PASSWORD';
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $endpoint);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-#curl_setopt($ch, CURLOPT_USERPWD, $serverCredentials['SystemId'] . ':' . $serverCredentials['Secret']);
+curl_setopt($ch, CURLOPT_USERPWD, $username . ':' . $secret);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2); // Max connection time 2 sec
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // To get response data

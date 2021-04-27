@@ -2,9 +2,9 @@
 	<rawname>pushnotification</rawname>
 	<repo>unsupported</repo>
 	<name>Push Notification Module</name>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<category>Applications</category>
-	<Publisher>Stefano Fancello</Publisher>
+	<Publisher>Ambrogio</Publisher>
 	<description>Call Push Notification</description>
 	<changelog></changelog>
 	<info></info>

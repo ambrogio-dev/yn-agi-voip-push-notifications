@@ -22,21 +22,25 @@ $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
 if ($httpCode != 200) {
-  syslog(LOG_ERR, "Error: notification server answered $httpCode");
+   syslog(LOG_ERR, "Error while sending VoIP notification to $callee, server answered $httpCode");
 } else {
-  syslog(LOG_ERR, "Voip Notification Report:");
-  $reports = json_decode($response);
-  foreach ($reports as $key => $report) {
-    foreach($report as $key => $value) {
-       if ($key === "sent") { // extracts the sent status
-          $is_sent = $value ? 'true' : 'false';
-          syslog(LOG_INFO, " $key: $is_sent");
-       } else { // fallback for the other key-value pairs
-          syslog(LOG_INFO, " $key: $value");
-       }
-    }
-    syslog(LOG_INFO,"\n");
- }
+   $reports = json_decode($response);
+   if (empty($reports)) {
+      syslog(LOG_ERR, "$callee didn't have any registered smartphones (no push notification tokens found).");
+   } else {
+      syslog(LOG_INFO, "VoIP notification report for $callee:");
+      foreach ($reports as $key => $report) {
+         foreach($report as $key => $value) {
+            if ($key === "sent") { // extracts the sent status
+               $is_sent = $value ? 'true' : 'false';
+               syslog(LOG_INFO, " $key: $is_sent");
+            } else { // fallback for the other key-value pairs
+               syslog(LOG_INFO, " $key: $value");
+            }
+         }
+         syslog(LOG_INFO,"\n");
+      }
+   }
 }
 
 closelog();

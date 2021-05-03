@@ -3,7 +3,7 @@
 <?php
 
 /**
- * v.1.0.0
+ * v.1.1.0
  * 
  * AGI script to send VoIP push notification through a YouNeed backend service.
  * It requires chmod 775 to run IF installed manually for test purposes.
@@ -38,7 +38,17 @@ foreach ($extensions as $extension) {
    $cf = $agi->database_get('CF',$extension);
    $cf = $cf['data'];
    if (!empty($cf)) {
-       $extensions[] = $cf;
+      // check if cf is associated to a PBX user
+      // if you set as cf a PBX extension, please use the main ext!
+      $device_str = sprintf("%s/device", $cf);
+      $device = $agi->database_get('AMPUSER',$device_str);
+      $device = $device['data'];
+      if (!empty($device)) {
+         syslog(LOG_INFO, "Adding CF $cf to the extensions to be notified.");
+         $extensions[] = $cf;
+      } else {
+         syslog(LOG_INFO, "Ignoring CF $cf because is not a PBX extension.");
+      }
    }
 }
 $extensions = array_unique($extensions,SORT_REGULAR);

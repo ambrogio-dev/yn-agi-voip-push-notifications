@@ -13,7 +13,7 @@ include_once '/etc/freepbx_db.conf';
 define("AGIBIN_DIR", "/var/lib/asterisk/agi-bin");
 include(AGIBIN_DIR."/phpagi.php");
 
-$endpoint = 'https://mobile.youneed.it/phonenotifications/incoming_call_notification';
+$endpoint = 'https://pbx.youneed.it/phonenotifications/incoming_call_notification';
 $configuration_path = '/etc/asterisk/nethcti_push_configuration.json';
 
 $agi = new AGI();

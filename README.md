@@ -35,7 +35,7 @@ There are two relevant logs you can observe:
   /var/log
   ````
 
-in there, the best way to see the log is using tail on messages: `tail -10f messages`
+in there, the best way to see the logs is using tail on messages: `tail -10f messages`
 
 
 2. Asterisk:
@@ -45,9 +45,9 @@ in there, the best way to see the log is using tail on messages: `tail -10f mess
   ````
 
 3. FlexSIP:
-
+   Logs are stored in this folder:
   ```
-  /var/opt/belledonne-communications/log/flexisip
+  /var/opt/belledonne-communications/log/flexisip/
   ```
 
 

@@ -38,16 +38,16 @@ There are two relevant logs you can observe:
 in there, the best way to see the logs is using tail on messages: `tail -10f messages`
 
 
-2. Asterisk:
+2. Asterisk log folder:
 
   ````
   /var/log/asterisk
   ````
 
-3. FlexSIP:
-   Logs are stored in this folder:
+3. FlexSIP log folder:
+ 
   ```
-  /var/opt/belledonne-communications/log/flexisip/
+  /var/opt/belledonne-communications/log/flexisip
   ```
 
 

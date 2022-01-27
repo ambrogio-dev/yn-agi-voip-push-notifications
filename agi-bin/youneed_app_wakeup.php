@@ -3,7 +3,7 @@
 <?php
 
 /**
- * v.1.2.0
+ * v.1.3.0
  * 
  * AGI script to send VoIP push notification through a YouNeed backend service.
  * It requires chmod 775 to run IF installed manually for test purposes.

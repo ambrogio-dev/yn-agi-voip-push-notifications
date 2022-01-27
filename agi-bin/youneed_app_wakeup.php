@@ -3,7 +3,7 @@
 <?php
 
 /**
- * v.1.2.0
+ * v.1.3.0
  * 
  * AGI script to send VoIP push notification through a YouNeed backend service.
  * It requires chmod 775 to run IF installed manually for test purposes.
@@ -58,6 +58,14 @@ foreach ($extensions as $index => $extension) {
    $dnd = $agi->database_get('DND',$extension);
    $dnd = $dnd['data'];
    if (!empty($dnd)) {
+       unset($extensions[$index]);
+   }
+}
+
+// Exclude extensions whose state is different from NOT_INUSE
+foreach ($extensions as $index => $extension) {
+   if (get_var($agi,"EXTENSION_STATE($extension)") != "NOT_INUSE") {
+       syslog(LOG_INFO, "Ignoring $extension because is not available.");
        unset($extensions[$index]);
    }
 }

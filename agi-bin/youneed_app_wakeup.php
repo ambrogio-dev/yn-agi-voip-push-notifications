@@ -62,6 +62,14 @@ foreach ($extensions as $index => $extension) {
    }
 }
 
+// Exclude extensions whose state is different from NOT_INUSE
+foreach ($extensions as $index => $extension) {
+   if (get_var($agi,"EXTENSION_STATE($extension)") != "NOT_INUSE") {
+       syslog(LOG_INFO, "Ignoring $extension because is not available.");
+       unset($extensions[$index]);
+   }
+}
+
 if (empty($extensions)) {
    syslog(LOG_INFO, "No extensions eligible for push notifications found.");
    exit(0);

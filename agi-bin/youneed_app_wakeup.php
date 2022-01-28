@@ -67,7 +67,7 @@ foreach ($extensions as $index => $extension) {
    # Possible values:
    # UNKNOWN | NOT_INUSE | INUSE | BUSY | INVALID | UNAVAILABLE | RINGING RINGINUSE | HOLDINUSE | ONHOLD
    $state = get_var($agi,"EXTENSION_STATE($extension)");
-   if(empty($state)) {
+   if (empty($state)) {
       $state = "STATE_NOT_FOUND"; # custom state 
    }
    if ($state != "NOT_INUSE") {

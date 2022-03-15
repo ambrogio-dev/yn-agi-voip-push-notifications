@@ -27,7 +27,7 @@ JSON file format:
 
 ## Logs
 
-There are two relevant logs you can observe:
+There are four relevant logs you can observe:
 
 1. System:
 
@@ -49,7 +49,13 @@ in there, the best way to see the logs is using tail on messages: `tail -10f mes
   ```
   /var/opt/belledonne-communications/log/flexisip
   ```
+4. Ambrogio 🚩 (Push Notification AGI's log)
 
+  ````
+  /var/log
+  ````
+
+in there, the best way to see the logs is using tail on ambrogio.log: `tail -10f ambrogio.log`
 
 # Push Notification Script
 

@@ -45,6 +45,6 @@ class Pushnotification extends \FreePBX_Helpers implements \BMO
 	public function doDialplanHook(&$ext, $engine, $priority)
 	{
 		$ext->splice('macro-dial-one', 's','setexttocall', new \ext_agi('/var/lib/asterisk/agi-bin/youneed_app_wakeup.php'));
-        $ext->splice('macro-dial', 's', 'dial', new \ext_agi('/var/lib/asterisk/agi-bin/youneed_app_wakeup.php'));
+        	$ext->splice('macro-dial', 's', 'dial', new \ext_agi('/var/lib/asterisk/agi-bin/youneed_app_wakeup.php'));
 	}
 }

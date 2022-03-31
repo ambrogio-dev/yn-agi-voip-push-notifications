@@ -22,10 +22,11 @@ $caller_id = $agi->request['agi_callerid'];
 $caller_id_name = $agi->request['agi_calleridname'];
 $ext_string = get_var($agi, 'ARG3');
 $extensions = explode('-',$ext_string); // holds only main extensions
+$pid = getmypid();
 
 openlog("Ambrogio", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 
-syslog(LOG_INFO, "Starting script with AGI ARG3: $ext_string");
+syslog(LOG_INFO, "Starting script (pid: $pid) with AGI ARG3: $ext_string");
 
 // Sometimes ARG3 is empty.
 if (empty($ext_string) || empty($extensions)) {

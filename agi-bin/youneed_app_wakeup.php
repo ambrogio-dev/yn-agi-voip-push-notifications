@@ -17,20 +17,21 @@ $endpoint = 'https://pbx.youneed.it/phonenotifications/incoming_call_notificatio
 $configuration_path = '/etc/asterisk/nethcti_push_configuration.json';
 
 $agi = new AGI();
-$call_id = $agi->request['agi_uniqueid'];
+$asterisk_unique_id = $agi->request['agi_uniqueid'];
 $caller_id = $agi->request['agi_callerid'];
 $caller_id_name = $agi->request['agi_calleridname'];
-$ext_string = get_var($agi, 'ARG3');
+$ext_string = get_var($agi, 'ARG1');
+$call_id = get_var($agi, 'ARG2');
 $extensions = explode('-',$ext_string); // holds only main extensions
 $pid = getmypid();
 
 openlog("Ambrogio", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 
-syslog(LOG_INFO, "Starting script (pid: $pid) with AGI ARG3: $ext_string");
+syslog(LOG_INFO, "Starting script (pid: $pid) for: $ext_string (uniqueID: $asterisk_unique_id, Call-ID: $call_id)");
 
-// Sometimes ARG3 is empty.
+// Sometimes ARG1 is empty.
 if (empty($ext_string) || empty($extensions)) {
-   syslog(LOG_INFO, "ARG3 doesn't contain any ext.");
+   syslog(LOG_INFO, "ARG1 doesn't contain any ext.");
    exit(0);
 }
 

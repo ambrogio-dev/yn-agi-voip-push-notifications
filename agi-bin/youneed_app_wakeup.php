@@ -25,7 +25,7 @@ $asterisk_call_id = $agi->request['agi_uniqueid'];
 $pid = getmypid();
 
 openlog("Ambrogio", LOG_PID | LOG_PERROR, LOG_LOCAL0);
-syslog(LOG_INFO, "Starting script (pid: $pid) for extension: $extension (asterisk call ID: $asterisk_call_id, Call-ID: $call_id)");
+syslog(LOG_INFO, "Starting script (pid: $pid) for extension: $extension, asterisk call ID: $asterisk_call_id and SIP Call-ID: $call_id)");
 
 
 // Sometimes ARG3 is empty.

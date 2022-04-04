@@ -34,7 +34,7 @@ if (empty($extension)) {
    exit(0);
 }
 
-// Check if App Extension
+// Check if app extension
 $real_callee = $agi->request['agi_callerid'];
 if (strpos($real_callee,"92$extension") === FALSE) {
    syslog(LOG_INFO, "Ignoring $real_callee because it is not an app extension.");

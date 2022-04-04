@@ -17,16 +17,16 @@ $endpoint = 'https://pbx.youneed.it/phonenotifications/incoming_call_notificatio
 $configuration_path = '/etc/asterisk/nethcti_push_configuration.json';
 
 $agi = new AGI();
-$caller_id = get_var($agi, 'ARG1');
-$caller_id_name = get_var($agi, 'ARG2');
-$extension = get_var($agi, 'ARG3');
-$call_id = get_var($agi, 'ARG4');
+$caller_id = $argv[1];
+$caller_id_name = $argv[2];
+$extension = $argv[3];
+$call_id = $argv[4];
+$asterisk_call_id = $agi->request['agi_uniqueid'];
 $pid = getmypid();
 
 openlog("Ambrogio", LOG_PID | LOG_PERROR, LOG_LOCAL0);
+syslog(LOG_INFO, "Starting script (pid: $pid) for extension: $extension (asterisk call ID: $asterisk_call_id, Call-ID: $call_id)");
 
-syslog(LOG_INFO, "Starting script with AGI ARG3: $extension");
-syslog(LOG_INFO, "Starting script (pid: $pid) for: $extension (uniqueID: $caller_id, Call-ID: $call_id)");
 
 // Sometimes ARG3 is empty.
 if (empty($extension)) {
@@ -34,7 +34,7 @@ if (empty($extension)) {
    exit(0);
 }
 
-// Check if app extension
+// Check if App Extension
 $real_callee = $agi->request['agi_callerid'];
 if (strpos($real_callee,"92$extension") === FALSE) {
    syslog(LOG_INFO, "Ignoring $real_callee because it is not an app extension.");

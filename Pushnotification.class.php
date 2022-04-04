@@ -43,10 +43,12 @@ class Pushnotification extends \FreePBX_Helpers implements \BMO
 	}
 
 	public function doDialplanHook(&$ext, $engine, $priority)
-	{
+	{	
+		;
 		$context='func-apply-sipheaders-amb';
+		
 		$ext->add($context, 's', '1', new \ext_noop('Applying SIP Headers to channel ${CHANNEL}'));
-		$ext->add($context, 's','', new \ext_agi('/var/lib/asterisk/agi-bin/youneed_app_wakeup.php,${ARG1},${CHANNEL(pjsip,call-id)}'));
+		$ext->add($context, 's','', new \ext_agi('/var/lib/asterisk/agi-bin/youneed_app_wakeup.php,${ARG1},${ARG2},${ARG3},${CHANNEL(pjsip,call-id)}'));
 		$ext->add($context, 's','', new \ext_setvar('TECH', '${CUT(CHANNEL,/,1)}'));
 		$ext->add($context, 's','', new \ext_setvar('SIPHEADERKEYS', '${HASHKEYS(SIPHEADERS)}'));
 		$ext->add($context, 's','', new \ext_while('$["${SET(sipkey=${SHIFT(SIPHEADERKEYS)})}" != ""]'));
@@ -59,7 +61,8 @@ class Pushnotification extends \FreePBX_Helpers implements \BMO
 		$ext->add($context, 's','', new \ext_execif('$["${TECH}" = "PJSIP" & "${sipheader}" != "unset"]', 'Set', 'PJSIP_HEADER(add,${sipkey})=${sipheader}'));
 		$ext->add($context, 's','', new \ext_endwhile());
 		$ext->add($context, 's','', new \ext_return());
-		$ext->replace('macro-dial-one', 's','dial', new \ext_dial('${DSTRING},${ARG1},${D_OPTIONS}b(func-apply-sipheaders-amb^s^1(${EXTTOCALL}))',''));
+		
+		$ext->replace('macro-dial-one', 's','dial', new \ext_dial('${DSTRING},${ARG1},${D_OPTIONS}b(func-apply-sipheaders-amb^s^1(${AMPUSER},${AMPUSERCIDNAME},${EXTTOCALL}))',''));
 		$ext->replace('macro-dial', 's','nddialapp', new \ext_dial('${ds}b(func-apply-sipheaders-amb^s^1(${EXTTOCALL}))',''));
 		$ext->replace('macro-dial', 's','hsdialapp', new \ext_dial('${${HuntMember}}${ds}b(func-apply-sipheaders-amb^s^1(${EXTTOCALL}))',''));
 	}

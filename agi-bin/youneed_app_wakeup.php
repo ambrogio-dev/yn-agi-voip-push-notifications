@@ -25,12 +25,12 @@ $asterisk_call_id = $agi->request['agi_uniqueid'];
 $pid = getmypid();
 
 openlog("Ambrogio", LOG_PID | LOG_PERROR, LOG_LOCAL0);
-syslog(LOG_INFO, "Starting script (pid: $pid) for extension: $extension, asterisk call ID: $asterisk_call_id and SIP Call-ID: $call_id)");
+syslog(LOG_INFO, "Starting script (pid: $pid) for $extension, asterisk call ID: $asterisk_call_id and SIP Call-ID: $call_id)");
 
 
-// Sometimes ARG3 is empty.
+// Sometimes argv[3] is empty.
 if (empty($extension)) {
-   syslog(LOG_INFO, "ARG3 doesn't contain any ext.");
+   syslog(LOG_INFO, "argv[3] doesn't contain any ext.");
    exit(0);
 }
 
@@ -81,7 +81,7 @@ if (is_null($server_user) || is_null($server_secret) || empty($server_user) || e
 $callee = $extension . "@" . $public_hostname;
 syslog(LOG_INFO, "Sending VoIP notification - from $caller_id (name: $caller_id_name) to $callee.");
 
-$params = array('calleeAor' => $callee, 'callerAor' => $caller_id);
+$params = array('calleeAor' => $callee, 'callerAor' => $caller_id, 'callID' => $call_id, 'asteriskCallID' = $asterisk_call_id);
 $url = $endpoint . '?' . http_build_query($params);
 syslog(LOG_DEBUG, "url: $url");
 

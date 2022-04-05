@@ -81,7 +81,7 @@ if (is_null($server_user) || is_null($server_secret) || empty($server_user) || e
 $callee = $extension . "@" . $public_hostname;
 syslog(LOG_INFO, "Sending VoIP notification - from $caller_id (name: $caller_id_name) to $callee.");
 
-$params = array('calleeAor' => $callee, 'callerAor' => $caller_id, 'callID' => $call_id, 'asteriskCallID' = $asterisk_call_id);
+$params = array('calleeAor' => $callee, 'callerAor' => $caller_id, 'callID' => $call_id, 'asteriskCallID' => $asterisk_call_id);
 $url = $endpoint . '?' . http_build_query($params);
 syslog(LOG_DEBUG, "url: $url");
 

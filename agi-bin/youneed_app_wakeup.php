@@ -90,6 +90,7 @@ curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2); // Max connection time 2 sec
+curl_setopt($ch, CURLOPT_TIMEOUT, 2); // Max transfer time 2 sec
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // We need the actual response for logging
 curl_setopt($ch, CURLOPT_USERPWD, $server_user . ':' . $server_secret);
 $response = curl_exec($ch);
@@ -101,7 +102,7 @@ if ($httpCode != 200) {
 } else {
    $reports = json_decode($response);
    if (empty($reports)) {
-      syslog(LOG_ERR, "$callee didn't have any registered smartphones (no push notification tokens found).");
+      syslog(LOG_INFO, "$callee didn't have any registered smartphones (no push notification tokens found).");
    } else {
       syslog(LOG_INFO, "VoIP notification report for $callee:");
       foreach ($reports as $key => $report) {

@@ -62,7 +62,7 @@ class Pushnotification extends \FreePBX_Helpers implements \BMO
 		$ext->add($context, 's','', new \ext_endwhile());
 		$ext->add($context, 's','', new \ext_return());
 		
-		$ext->replace('macro-dial-one', 's','dial', new \ext_dial('${DSTRING},${ARG1},${D_OPTIONS}b(func-apply-sipheaders-amb^s^1(${AMPUSER},${AMPUSERCIDNAME},${EXTTOCALL}))',''));
+		$ext->replace('macro-dial-one', 's','dial', new \ext_dial('${DSTRING},${ARG1},${D_OPTIONS}b(func-apply-sipheaders-amb^s^1(${CALLERID(num)},${CALLERID(name)},${EXTTOCALL}))',''));
 		$ext->replace('macro-dial', 's','nddialapp', new \ext_dial('${ds}b(func-apply-sipheaders-amb^s^1(${EXTTOCALL}))',''));
 		$ext->replace('macro-dial', 's','hsdialapp', new \ext_dial('${${HuntMember}}${ds}b(func-apply-sipheaders-amb^s^1(${EXTTOCALL}))',''));
 	}
